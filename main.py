@@ -1,3 +1,4 @@
+from re import I
 import pygame
 import math
 from queue import PriorityQueue
@@ -129,6 +130,7 @@ def algorithm(draw, grid, start, end):
         if current == end:
             reconstruct_path(came_from, end, draw)
             end.make_end()
+            start.make_start()
             return True
 
         for neighbor in current.neighbors:
@@ -198,15 +200,12 @@ def main(win, width):
     end = None
 
     run = True
-    started = False
+
     while run:
         draw(win, grid, ROWS, width)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-
-            if started:
-                continue
 
             if pygame.mouse.get_pressed()[0]:  # left
                 pos = pygame.mouse.get_pos()
@@ -234,13 +233,18 @@ def main(win, width):
                     end = None
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and not started:
+                if event.key == pygame.K_SPACE and start and end:
                     for row in grid:
                         for spot in row:
                             spot.update_neighbors(grid)
 
                     algorithm(lambda: draw(win, grid, ROWS, width),
                               grid, start, end)
+
+                if event.key == pygame.K_c:
+                    start = None
+                    end = None
+                    grid = make_grid(ROWS, width)
 
     pygame.quit()
 
