@@ -69,7 +69,8 @@ class Spot:
         self.color = PURPLE
 
     def draw(self, win):
-        pygame.draw.rect(win, self.color, (self.x, self.width, self.width))
+        pygame.draw.rect(
+            win, self.color, (self.x, self.y, self.width, self.width))
 
     def update_neighbors(self, grid):
         pass
@@ -134,6 +135,7 @@ def main(win, width):
     run = True
     started = False
     while run:
+        draw(win, grid, ROWS, width)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -141,4 +143,25 @@ def main(win, width):
             if started:
                 continue
 
+            if pygame.mouse.get_pressed()[0]:  # left
+                pos = pygame.mouse.get_pos()
+                row, col = get_clicked_pos(pos, ROWS, width)
+                spot = grid[row][col]
+                if not start and spot != end:
+                    start = spot
+                    start.make_start()
+
+                elif not end and spot != start:
+                    end = spot
+                    end.make_end()
+
+                elif spot != end and spot != start:
+                    spot.make_barrier()
+
+            # elif pygame.mouse.get_pressed()[2]:  # right
+            #     pass
+
     pygame.quit()
+
+
+main(WIN, WIDTH)
