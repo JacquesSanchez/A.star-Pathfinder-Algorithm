@@ -3,11 +3,13 @@
 #
 #
 # Instructions:
-# 1st right-click = "sets starting point"
+# 1st left-click = "sets starting point"
 #
-# 2nd right-click = "sets end point"
+# 2nd left-click = "sets end point"
 #
-# 3rd++ right-clicks = "sets barrier blocks"
+# 3rd++ left-clicks = "sets barrier blocks"
+#
+# right-click = "erase block"
 #
 # C = "clears board"
 #
